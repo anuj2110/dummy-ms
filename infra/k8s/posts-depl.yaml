@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: appPost # manage the pofs with this key value label
+  template:
+    metadata:
+      labels:
+        name: appPost # this should match the above marked key value pair
+    spec:
+      containers:
+        - name: posts
+          image: anuj2110/posts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-service
+spec:
+  selector:
+    name: appPost
+  ports:
+  - name:  posts
+    port:  4000
+    protocol: TCP
+    targetPort: 4000
